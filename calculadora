@@ -1,65 +1,74 @@
-class program
+class Program
 {
     static void Main()
     {
-       
-        while (true)        
+        bool running = true;
+        while (running)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\nEscolha uma opção:\n");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("1= Soma");
-            Console.WriteLine("2= Subtração");
-            Console.WriteLine("3= Multiplição");
-            Console.WriteLine("4= Divisão");
-            Console.WriteLine("0= Sair");
+            PrintMenu();
 
-            if (!int.TryParse(Console.ReadLine(), out int opcao) || opcao < 0 || opcao > 4)
+            string input = Console.ReadLine();
+            bool isInputValid = IsInputValid(input);
+            if (isInputValid)
             {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("Opção inválida, por favor selecione uma opção válida! \n ");
-                continue;
+                if (input == "0")
+                {
+                    return;
+                }
+
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write("\nDigite o primeiro numero: ");
+                double num1 = double.Parse(Console.ReadLine());
+
+                Console.Write("\nDigite o segundo numero: ");
+                double num2 = double.Parse(Console.ReadLine());
+
+                PrintOperation(input, num1, num2);
             }
-            if (opcao == 0)
-            {   
-                Console.WriteLine("saindo");
-                break;
-            }
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("\nDigite o primeiro numero: ");
-            double num1 = double.Parse(Console.ReadLine());
-
-            Console.Write("\nDigite o segundo numero: ");
-            double num2 = double.Parse(Console.ReadLine());
-
-            double resultado = 0;
-
-
-            switch (opcao)
+            else
             {
-                case 1:
-                    resultado = num1 + num2;
-                    break;
-                case 2:
-                    resultado = num1 - num2;
-                    break;
-                case 3:
-                    resultado = num1 * num2;
-                    break;
-                case 4:
-                    if (num2 != 0)
-                    {
-                        resultado = num1 / num2;
-                    }
-                    else
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkRed;
-                        Console.WriteLine("ERRO. Divisão por zero");
-                        continue;
-                    }
-                    break;
+                Console.WriteLine("Input inválido.");
             }
-            Console.WriteLine("\nResultado =" + resultado);
+            Console.ReadLine();
         }
+    }
+
+    static void PrintMenu()
+    {
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("\nEscolha uma opção:\n");
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine("1= Soma");
+        Console.WriteLine("2= Subtração");
+        Console.WriteLine("3= Multiplição");
+        Console.WriteLine("4= Divisão");
+        Console.WriteLine("0= Sair");
+    }
+
+    static bool IsInputValid(string input)
+    {
+        if (int.TryParse(input, out int number))
+        {
+            return (number >= 0 && number <= 4);
+        }
+        return false;
+    }
+    static void PrintOperation(string input, double num1, double num2)
+    {
+        if (input == "4" && num2 == 0)
+        {
+            Console.WriteLine("Erro: divisão por 0.");
+            return;
+        }
+        double result = input switch
+        {
+            "1" => num1 + num2,
+            "2" => num1 - num2,
+            "3" => num1 * num2,
+            "4" => num1 / num2
+        };
+
+        Console.WriteLine($"\nResultado = {result}");
     }
 }
