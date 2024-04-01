@@ -1,4 +1,4 @@
-'''class Program
+class Program
 {
     static void Main()
     {
@@ -71,4 +71,4 @@
 
         Console.WriteLine($"\nResultado = {result}");
     }
-}'''
+}
